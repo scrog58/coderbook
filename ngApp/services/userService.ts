@@ -6,6 +6,9 @@ namespace coderbook2.Services {
     private LOGIN = this.ENDPOINT + 'login';
     private REGISTER = this.ENDPOINT + 'register';
 
+    private userId;
+    private userData;
+
     static $inject = ['$resource', '$http', '$window'];
 
     constructor(private $resource, private $http, private $window) {}
@@ -19,8 +22,25 @@ namespace coderbook2.Services {
         console.dir(res);
         this.setToken(res.data.token);
         console.log(this.getToken());
+        this.userData = res.data.user;
+        this.userId = res.data.user._id;
       })
       .catch((err) => console.dir(err));
+    }
+
+    public getUser(id) {
+      console.log(id);
+      return this.USER_RESOURCE.get({id: id, headers: {
+        //TODO figure out sending headers with $resource so we can send x-access-token
+      }});
+    }
+
+    public getUserId() {
+      return this.userId;
+    }
+
+    public getUserData() {
+      return this.userData;
     }
 
     public isLoggedIn() {
