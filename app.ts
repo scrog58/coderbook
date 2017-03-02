@@ -12,6 +12,9 @@ import Post from './models/post';
 import Comment from './models/comment';
 import users from './api/user';
 
+require("./models/user");
+require("./config/passport");
+
 const CONNECTION_STRING = 'mongodb://nick:98765@ds161159.mlab.com:61159/sampledb_ns'
 const profilePicture = 'http://www.clipartkid.com/images/87/profile-silhouette-Gfiv7m-clipart.png';
 
