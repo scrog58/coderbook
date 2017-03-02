@@ -11,7 +11,7 @@ router.post('/login', (req, res, next) => {
     if(err) {
       return next(err);
     } else if (user) {
-      return res.json({ token: user.generateToken()})
+      return res.json({ token: user.generateToken(), user: user})
     }
     return res.status(400).send(info);
   })(req, res, next);

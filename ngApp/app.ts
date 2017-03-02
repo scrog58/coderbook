@@ -11,13 +11,25 @@ namespace coderbook2 {
                 url: '/',
                 templateUrl: '/ngApp/views/home.html',
                 controller: coderbook2.Controllers.HomeController,
-                controllerAs: 'controller'
+                controllerAs: 'controller',
+                data: {
+                  requiresAuthentication: true
+                }
             })
-            .state('about', {
-                url: '/about',
-                templateUrl: '/ngApp/views/about.html',
-                controller: coderbook2.Controllers.AboutController,
-                controllerAs: 'controller'
+            .state('user', {
+                url: '/user/:id',
+                templateUrl: '/ngApp/views/user.html',
+                controller: coderbook2.Controllers.UserController,
+                controllerAs: 'controller',
+                data: {
+                  requiresAuthentication: true
+                }
+            })
+            .state('login', {
+              url: '/login',
+              templateUrl: '/ngApp/views/login.html',
+              controller: coderbook2.Controllers.LoginController,
+              controllerAs: 'controller'
             })
             .state('notFound', {
                 url: '/notFound',
@@ -31,6 +43,19 @@ namespace coderbook2 {
         $locationProvider.html5Mode(true);
     });
 
-    
+  angular.module('coderbook2').run((
+    $state,
+    $rootScope,
+    userService
+  ) => {
+    $rootScope.$on('$stateChangeStart', (e, to) => {
+      if (to.data && to.data.requiresAuthentication) {
+        if (!userService.isLoggedIn()) {
+          e.preventDefault();
+          $state.go('login');
+        }
+      }
+    });
+  });
 
 }

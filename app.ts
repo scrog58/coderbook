@@ -39,7 +39,7 @@ mongoose.connect(CONNECTION_STRING)
       }).then((post) => {
         let myUser = new User();
         myUser.username = 'Nick';
-        myUser.password = '98765';
+        myUser.generateHash('98765');
         myUser.profilePicture = profilePicture;
         myUser.posts.push(post);
         myUser.save();
