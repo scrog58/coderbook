@@ -6,7 +6,9 @@ namespace coderbook2.Controllers {
     static $inject = ['userService'];
 
     constructor(private userService) {
-      this.user = userService.getUser(userService.getUserId());
+      this.user = userService.getUserData();
+      console.log('user:');
+      console.dir(this.user);
     }
   }
 

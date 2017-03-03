@@ -22,17 +22,15 @@ namespace coderbook2.Services {
         console.dir(res);
         this.setToken(res.data.token);
         console.log(this.getToken());
-        this.userData = res.data.user;
         this.userId = res.data.user._id;
+        this.$window.sessionStorage.setItem('userId', this.userId);
       })
       .catch((err) => console.dir(err));
     }
 
     public getUser(id) {
       console.log(id);
-      return this.USER_RESOURCE.get({id: id, headers: {
-        //TODO figure out sending headers with $resource so we can send x-access-token
-      }});
+      return this.USER_RESOURCE.get({id: id});
     }
 
     public getUserId() {
@@ -40,6 +38,10 @@ namespace coderbook2.Services {
     }
 
     public getUserData() {
+      if (!this.userData) {
+        this.$http.defaults.headers.common['x-access-token'] = this.getToken();
+        this.userData = this.getUser(this.$window.sessionStorage.userId);
+      }
       return this.userData;
     }
 
@@ -48,11 +50,12 @@ namespace coderbook2.Services {
     }
 
     public getToken() {
-      return this.$window.localStorage.token;
+      return this.$window.sessionStorage.token;
     }
 
     public setToken(token) {
-      this.$window.localStorage.setItem('token', token);
+      this.$window.sessionStorage.setItem('token', token);
+      this.$http.defaults.headers.common['x-access-token'] = token;
     }
 
   }
