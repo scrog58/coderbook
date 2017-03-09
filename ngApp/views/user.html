@@ -1,4 +1,15 @@
-<h2>About</h2>
-<p>
-    {{controller.message}}
-</p>
+<h2>Welcome, {{controller.user.username}}</h2>
+<hr>
+
+
+<uib-accordion close-others="true">
+    <uib-accordion-group heading="{{controller.user.username}} - {{post.dateCreated}}" ng-repeat="post in controller.user.posts">
+      <img class="profilePicture" ng-src="{{post.profilePicture}}" width="100px" height="100px"/><br /><hr>
+      {{post.content}} <br /><hr>
+      <uib-accordion close-others="false">
+        <uib-accordion-group heading="{{comment.dateCreated}}" ng-repeat="comment in post.comments">
+          {{comment.content}}
+        </uib-accordion-group>
+      </uib-accordion>
+    </uib-accordion-group>
+</uib-accordion>

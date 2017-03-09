@@ -7,8 +7,6 @@ namespace coderbook2.Controllers {
 
     constructor(private userService) {
       this.user = userService.getUserData();
-      console.log('user:');
-      console.dir(this.user);
     }
   }
 
